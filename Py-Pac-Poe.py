@@ -25,7 +25,7 @@ status = {
     ['b1', 'b2', 'b3'],
     ['c1', 'c2', 'c3'],
     ['a1', 'b2', 'c3'],
-    ['c1', 'b2', 'c1']
+    ['c1', 'b2', 'a3']
     ]
 }
 
@@ -46,24 +46,26 @@ print(display_board)
 
 
 
-
 def check_win(turn):
     if turn == 'x':
         for sublist in status['winning_combos']:
-            if all(element in status['x_moves'] for element in sublist):
-                print('X Player Wins')
-                break
+            if any(set(sublist).issubset(status['x_moves']) for sublist in status['winning_combos']):
+                print('X PLAYER WINS')
+                exit()
             else:
                 move()
     else:
         for sublist in status['winning_combos']:
-            if all(element in status['o_moves'] for element in sublist):
-                print('O Player Wins')
-                break
+            if any(set(sublist).issubset(status['o_moves']) for sublist in status['winning_combos']):
+                print('O PLAYER WINS')
+                exit()
             else:
                 move()
 
 def move():
+    if len(status['moves']) == 0:
+        print('TIE GAME')
+        exit()
     if status['turn']:
         player_move = input('Player X move: ')
         if player_move in status['moves']:
